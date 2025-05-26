@@ -1,3 +1,4 @@
+/* 기존 스타일 - 수정하지 않음 */
 #layout {
     width: 820px;
     min-height: 100vh;
@@ -119,4 +120,253 @@ button:disabled {
 .ott-score {
     color: #4285f4;
     font-weight: 500;
+}
+
+/* 새로운 통합 UI용 추가 스타일 */
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* 월별 로테이션 스타일 */
+.yearly-summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #e9ecef;
+}
+
+.yearly-summary h3 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.stat-item.success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-item.success .stat-value {
+    color: #155724;
+}
+
+/* 월별 캘린더 */
+.monthly-calendar {
+    margin-bottom: 25px;
+}
+
+.monthly-calendar h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.month-card {
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.month-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.month-header {
+    background-color: #4285f4;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.month-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.month-cost {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.platform-info {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.platform-name {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.platform-plan {
+    font-size: 12px;
+    color: #666;
+}
+
+.month-stats {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.month-stats .stat {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.content-preview {
+    padding: 12px 15px;
+}
+
+.preview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.preview-item .content-title {
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+    margin-right: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.preview-item .content-hours {
+    color: #666;
+    font-size: 10px;
+}
+
+.preview-more {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* 구독 알림 타임라인 */
+.subscription-timeline h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.timeline-list {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.timeline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-date {
+    font-weight: bold;
+    color: #333;
+    min-width: 80px;
+}
+
+.timeline-action {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.action-cancel {
+    color: #dc3545;
+    margin-right: 8px;
+}
+
+.action-subscribe {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.timeline-cost {
+    font-weight: bold;
+    color: #4285f4;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .timeline-action {
+        margin: 0;
+    }
+
+    .timeline-cost {
+        text-align: left;
+    }
 }
