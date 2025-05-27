@@ -1,56 +1,17 @@
 import React, { useState } from "react";
 import "./App.css";
-
-// 기본 추천 응답
-interface BasicRecommendation {
-    OTT: string;
-    score: number;
-}
-
-// OTT 추천 응답
-interface OttRecommendationItem {
-    title: string;
-    platform: string;
-    score: number;
-    watch_hours: number;
-    genre: string;
-    genre_detail: string;
-}
-
-interface SubscriptionPlan {
-    plan_name: string;
-    price: number;
-}
-
-interface OttRecommendationResponse {
-    status: string;
-    recommendations: OttRecommendationItem[];
-    total_estimated_watch_time: number;
-    total_subscription_cost: number;
-    subscription_plan: { [key: string]: SubscriptionPlan };
-}
-
-// 월별 추천 인터페이스
-interface MonthlyRecommendation {
-    month: number;
-    monthName: string;
-    platform: string;
-    platformScore: number;
-    price: number;
-    planName: string;
-    contents: OttRecommendationItem[];
-    totalWatchHours: number;
-    efficiency: number; // 시간/비용 효율성
-}
-
-// 연간 추천 결과
-interface YearlyPlan {
-    monthlyPlans: MonthlyRecommendation[];
-    totalAnnualCost: number;
-    averageMonthlyCost: number;
-    totalSavings: number;
-    utilizationRate: number;
-}
+import InputForm from "./components/InputForm";
+import YearlySummary from "./components/YearlySummary";
+import MonthlyCalendar from "./components/MonthlyCalendar";
+import SubscriptionTimeline from "./components/SubscriptionTimeline";
+import {
+    YearlyPlan,
+    MonthlyRecommendation,
+    BasicRecommendation,
+    OttRecommendationResponse,
+    OttRecommendationItem,
+    SubscriptionPlan,
+} from "./types/ottTypes";
 
 function App() {
     // 공통 입력 상태
@@ -275,192 +236,32 @@ function App() {
                         <h2>스마트 월별 OTT 로테이션</h2>
                     </header>
 
-                    <section id="input-section">
-                        <div>
-                            <div className="input-grid">
-                                <div className="form-group">
-                                    <label htmlFor="age-group">연령대:</label>
-                                    <select
-                                        id="age-group"
-                                        value={ageGroup}
-                                        onChange={(e) => setAgeGroup(e.target.value)}
-                                    >
-                                        <option value="10대">10대</option>
-                                        <option value="20대">20대</option>
-                                        <option value="30대">30대</option>
-                                        <option value="40대">40대</option>
-                                        <option value="50대">50대</option>
-                                        <option value="50대 이상">50대 이상</option>
-                                    </select>
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="gender">성별:</label>
-                                    <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
-                                        <option value="m">남성</option>
-                                        <option value="f">여성</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="liked-titles">좋아하는 콘텐츠 (콤마로 구분):</label>
-                                <input
-                                    type="text"
-                                    id="liked-titles"
-                                    value={likedTitles}
-                                    onChange={(e) => setLikedTitles(e.target.value)}
-                                    placeholder="예: 오징어 게임, 슬기로운 의사생활, 태어난김에 세계일주"
-                                />
-                            </div>
-
-                            <div className="input-grid">
-                                <div className="form-group">
-                                    <label htmlFor="base-genres">선호 장르 (콤마로 구분):</label>
-                                    <input
-                                        type="text"
-                                        id="base-genres"
-                                        value={baseGenres}
-                                        onChange={(e) => setBaseGenres(e.target.value)}
-                                        placeholder="예: 드라마, 영화, 예능"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="detail-genres">세부 장르 (콤마로 구분):</label>
-                                    <input
-                                        type="text"
-                                        id="detail-genres"
-                                        value={detailGenres}
-                                        onChange={(e) => setDetailGenres(e.target.value)}
-                                        placeholder="예: 스릴러, 로맨스, 액션"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="input-grid">
-                                <div className="form-group">
-                                    <label htmlFor="weekly-hours">주간 시청 시간 (시간):</label>
-                                    <input
-                                        type="number"
-                                        id="weekly-hours"
-                                        value={weeklyHours}
-                                        onChange={(e) => setWeeklyHours(parseInt(e.target.value) || 0)}
-                                        min="1"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="budget">월 예산 (원):</label>
-                                    <input
-                                        type="number"
-                                        id="budget"
-                                        value={monthlyBudget}
-                                        onChange={(e) => setMonthlyBudget(parseInt(e.target.value) || 0)}
-                                        min="1000"
-                                        step="1000"
-                                    />
-                                </div>
-                            </div>
-
-                            <button onClick={handleSubmit} disabled={isLoading}>
-                                {isLoading ? "연간 계획 생성 중..." : "맞춤 연간 구독 계획 받기"}
-                            </button>
-                        </div>
-                    </section>
+                    <InputForm
+                        ageGroup={ageGroup}
+                        setAgeGroup={setAgeGroup}
+                        gender={gender}
+                        setGender={setGender}
+                        likedTitles={likedTitles}
+                        setLikedTitles={setLikedTitles}
+                        baseGenres={baseGenres}
+                        setBaseGenres={setBaseGenres}
+                        detailGenres={detailGenres}
+                        setDetailGenres={setDetailGenres}
+                        weeklyHours={weeklyHours}
+                        setWeeklyHours={setWeeklyHours}
+                        monthlyBudget={monthlyBudget}
+                        setMonthlyBudget={setMonthlyBudget}
+                        handleSubmit={handleSubmit}
+                        isLoading={isLoading}
+                    />
 
                     {error && <div className="error-message">{error}</div>}
 
                     {yearlyPlan && (
                         <section id="results-section">
-                            {/* 연간 요약 */}
-                            <div className="yearly-summary">
-                                <h3>📊 연간 구독 계획 요약</h3>
-                                <div className="summary-stats">
-                                    <div className="stat-item">
-                                        <span className="stat-label">연간 총 비용</span>
-                                        <span className="stat-value">
-                                            {yearlyPlan.totalAnnualCost.toLocaleString()}원
-                                        </span>
-                                    </div>
-                                    <div className="stat-item">
-                                        <span className="stat-label">월 평균 비용</span>
-                                        <span className="stat-value">
-                                            {Math.round(yearlyPlan.averageMonthlyCost).toLocaleString()}원
-                                        </span>
-                                    </div>
-                                    <div className="stat-item success">
-                                        <span className="stat-label">예상 절약액</span>
-                                        <span className="stat-value">{yearlyPlan.totalSavings.toLocaleString()}원</span>
-                                    </div>
-                                    <div className="stat-item">
-                                        <span className="stat-label">콘텐츠 활용률</span>
-                                        <span className="stat-value">{yearlyPlan.utilizationRate.toFixed(1)}%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* 월별 구독 캘린더 */}
-                            <div className="monthly-calendar">
-                                <h3>📅 월별 구독 캘린더</h3>
-                                <div className="calendar-grid">
-                                    {yearlyPlan.monthlyPlans.map((plan, index) => (
-                                        <div key={plan.month} className="month-card">
-                                            <div className="month-header">
-                                                <span className="month-name">{plan.monthName}</span>
-                                                <span className="month-cost">{plan.price.toLocaleString()}원</span>
-                                            </div>
-                                            <div className="platform-info">
-                                                <span className="platform-name">{plan.platform}</span>
-                                                <span className="platform-plan">{plan.planName}</span>
-                                            </div>
-                                            <div className="month-stats">
-                                                <div className="stat">
-                                                    <span>예상 시청: {plan.totalWatchHours.toFixed(1)}h</span>
-                                                </div>
-                                                <div className="stat">
-                                                    <span>추천 콘텐츠: {plan.contents.length}개</span>
-                                                </div>
-                                            </div>
-                                            <div className="content-preview">
-                                                {plan.contents.slice(0, 2).map((content, idx) => (
-                                                    <div key={idx} className="preview-item">
-                                                        <span className="content-title">{content.title}</span>
-                                                        <span className="content-hours">
-                                                            {content.watch_hours.toFixed(1)}h
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                                {plan.contents.length > 2 && (
-                                                    <div className="preview-more">+{plan.contents.length - 2}개 더</div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 구독 알림 일정 */}
-                            <div className="subscription-timeline">
-                                <h3>🔔 구독 관리 알림</h3>
-                                <div className="timeline-list">
-                                    {yearlyPlan.monthlyPlans.map((plan, index) => (
-                                        <div key={plan.month} className="timeline-item">
-                                            <div className="timeline-date">{plan.monthName} 1일</div>
-                                            <div className="timeline-action">
-                                                {index > 0 &&
-                                                    yearlyPlan.monthlyPlans[index - 1].platform !== plan.platform && (
-                                                        <span className="action-cancel">
-                                                            {yearlyPlan.monthlyPlans[index - 1].platform} 해지 →
-                                                        </span>
-                                                    )}
-                                                <span className="action-subscribe">{plan.platform} 구독 시작</span>
-                                            </div>
-                                            <div className="timeline-cost">{plan.price.toLocaleString()}원</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                            <YearlySummary yearlyPlan={yearlyPlan} />
+                            <MonthlyCalendar yearlyPlan={yearlyPlan} />
+                            <SubscriptionTimeline yearlyPlan={yearlyPlan} />
                         </section>
                     )}
                 </div>
