@@ -189,6 +189,7 @@ function App() {
             }
 
             const basicData = await basicResponse.json();
+            console.log(basicData);
             setBasicRecommendations(basicData.recommendations || []);
 
             // 두 번째 API 호출 (/ott_recommend) - 연간 예산으로 계산
@@ -214,6 +215,7 @@ function App() {
             }
 
             const ottData = await ottResponse.json();
+            console.log(ottData);
             setOttRecommendations(ottData);
 
             // 연간 계획 생성
@@ -227,6 +229,56 @@ function App() {
             setIsLoading(false);
         }
     };
+
+    // 1. 플랫폼별 등장 횟수 집계 함수
+    function getTopOttPlatforms(recommendations: OttRecommendationItem[], topN = 3) {
+        const count: { [platform: string]: number } = {};
+        recommendations.forEach((item) => {
+            item.platform
+                .split(",")
+                .map((p) => p.trim())
+                .forEach((platform) => {
+                    if (platform) count[platform] = (count[platform] || 0) + 1;
+                });
+        });
+        // 등장 횟수 내림차순 정렬 후 상위 N개 추출
+        return Object.entries(count)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, topN)
+            .map(([platform, cnt]) => ({ platform, count: cnt }));
+    }
+
+    // 플랫폼명과 구독플랜 key를 유연하게 매칭 (한글/영문, 대소문자, 특수문자, 공백 등 최대한 허용)
+    function normalizePlatformName(name: string) {
+        return name
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .replace(/[+]/g, "plus")
+            .replace(/-/g, "")
+            .replace(/_/g, "")
+            .replace(/tv/g, "")
+            .replace(/\(.*?\)/g, "")
+            .replace(/\./g, "")
+            .replace(/쿠팡플레이/g, "coupangplay")
+            .replace(/왓챠/g, "watcha")
+            .replace(/웨이브/g, "wavve")
+            .replace(/티빙/g, "tving")
+            .replace(/디즈니플러스/g, "disneyplus")
+            .replace(/애플tv/g, "appletv")
+            .replace(/넷플릭스/g, "netflix")
+            .replace(/유플러스|u\+모바일tv|uplus/g, "uplusmobile");
+    }
+    function getPlanForPlatform(platform: string, subscriptionPlan: any) {
+        const normPlatform = normalizePlatformName(platform);
+        const keys = Object.keys(subscriptionPlan);
+        for (const key of keys) {
+            const normKey = normalizePlatformName(key);
+            if (normPlatform === normKey || normPlatform.includes(normKey) || normKey.includes(normPlatform)) {
+                return key;
+            }
+        }
+        return undefined;
+    }
 
     return (
         <div className="App">
@@ -257,11 +309,57 @@ function App() {
 
                     {error && <div className="error-message">{error}</div>}
 
-                    {yearlyPlan && (
-                        <section id="results-section">
-                            <YearlySummary yearlyPlan={yearlyPlan} />
-                            <MonthlyCalendar yearlyPlan={yearlyPlan} />
-                            <SubscriptionTimeline yearlyPlan={yearlyPlan} />
+                    {/* 기본 추천 결과 별도 출력 */}
+                    {basicRecommendations.length > 0 && (
+                        <section id="basic-recommend-section">
+                            <h3>1️⃣ 기본 OTT 추천 결과</h3>
+                            <div className="basic-recommend-list">
+                                {basicRecommendations.map((rec, idx) => (
+                                    <div key={rec.OTT} className="basic-recommend-item">
+                                        <span className="ott-name">{rec.OTT}</span>
+                                        <span className="ott-score">점수: {rec.score}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* OTT 상세 추천 결과 별도 출력 */}
+                    {ottRecommendations && (
+                        <section id="ott-recommend-section">
+                            <h3>2️⃣ OTT 상세 추천 결과</h3>
+                            <div className="ott-recommend-summary">
+                                <div>총 예상 시청 시간: {ottRecommendations.total_estimated_watch_time}시간</div>
+                                <div>총 구독 비용: {ottRecommendations.total_subscription_cost.toLocaleString()}원</div>
+                            </div>
+                            <div className="ott-recommend-list">
+                                {ottRecommendations.recommendations.map((item, idx) => (
+                                    <div key={item.title + idx} className="ott-recommend-item">
+                                        <div className="ott-title">{item.title}</div>
+                                        <div>플랫폼: {item.platform}</div>
+                                        <div>
+                                            장르: {item.genre} / {item.genre_detail}
+                                        </div>
+                                        <div>예상 시청 시간: {item.watch_hours}h</div>
+                                        <div>점수: {item.score}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* 추천 OTT 플랫폼 */}
+                            <div className="ott-recommend-section">
+                                <h4>추천 OTT 구독 플랜</h4>
+                                <ul>
+                                    {Object.entries(ottRecommendations.subscription_plan).map(
+                                        ([platform, plan]: [string, any]) => (
+                                            <li key={platform}>
+                                                <span className="top3-platform">{platform}</span>
+                                                <span className="plan-name">{plan.plan_name}</span>
+                                                <span className="plan-price">{plan.price.toLocaleString()}원</span>
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </div>
                         </section>
                     )}
                 </div>

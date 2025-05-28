@@ -370,3 +370,199 @@ button:disabled {
         text-align: left;
     }
 }
+
+/* 기본 추천 결과 스타일 */
+#basic-recommend-section {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    border: 1px solid #e9ecef;
+}
+#basic-recommend-section h3 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 15px;
+}
+.basic-recommend-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.basic-recommend-item {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 14px 18px;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+.basic-recommend-item .ott-name {
+    font-weight: bold;
+    color: #4285f4;
+    margin-bottom: 6px;
+}
+.basic-recommend-item .ott-score {
+    color: #333;
+    font-size: 15px;
+}
+
+/* OTT 상세 추천 결과 스타일 */
+#ott-recommend-section {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    border: 1px solid #e9ecef;
+}
+#ott-recommend-section h3 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 15px;
+}
+.ott-recommend-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 18px;
+    font-size: 15px;
+    color: #555;
+}
+.ott-recommend-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+.ott-recommend-item {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 14px 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+.ott-recommend-item .ott-title {
+    font-weight: bold;
+    color: #4285f4;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+.ott-recommend-item > div {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 2px;
+}
+.ott-recommend-plan {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+.ott-recommend-plan h4 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+.ott-plan-item {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px;
+}
+.ott-plan-item .plan-platform {
+    font-weight: bold;
+    color: #4285f4;
+}
+.ott-plan-item .plan-name {
+    color: #666;
+}
+.ott-plan-item .plan-price {
+    color: #28a745;
+    font-weight: 500;
+}
+
+/* 새로운 스타일 추가 */
+.ott-top3-section {
+    margin: 18px 0 0 0;
+    padding: 12px 0 0 0;
+    border-top: 1px solid #e0e0e0;
+}
+.ott-top3-section h4 {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 8px;
+}
+.ott-top3-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 18px;
+}
+.ott-top3-section .top3-platform {
+    font-weight: bold;
+    color: #4285f4;
+}
+.ott-top3-section .top3-count {
+    color: #666;
+    margin-left: 4px;
+    font-size: 13px;
+}
+
+/* 새로운 스타일 추가 */
+.ott-recommend-section {
+    margin-top: 18px;
+    padding: 16px 0 0 0;
+    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+.ott-recommend-section h4 {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 8px;
+}
+.ott-recommend-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ott-recommend-section li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px 18px;
+    font-size: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+.ott-recommend-section .top3-platform {
+    font-weight: bold;
+    color: #4285f4;
+    min-width: 90px;
+}
+.ott-recommend-section .plan-name {
+    color: #666;
+    font-size: 14px;
+    margin-right: auto;
+}
+.ott-recommend-section .plan-price {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 15px;
+    margin-left: 12px;
+}
+
+/* 불필요한 클래스 삭제 */
+.ott-recommend-plan,
+.ott-plan-item {
+    /* 삭제: 더 이상 사용하지 않음 */
+    display: none !important;
+}

@@ -47,7 +47,6 @@ const InputForm: React.FC<InputFormProps> = ({
                         <option value="20대">20대</option>
                         <option value="30대">30대</option>
                         <option value="40대">40대</option>
-                        <option value="50대">50대</option>
                         <option value="50대 이상">50대 이상</option>
                     </select>
                 </div>
@@ -115,7 +114,7 @@ const InputForm: React.FC<InputFormProps> = ({
                 </div>
             </div>
             <button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? "연간 계획 생성 중..." : "맞춤 연간 구독 계획 받기"}
+                {isLoading ? "검색 중..." : "검색하기"}
             </button>
         </div>
     </section>
