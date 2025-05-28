@@ -559,6 +559,13 @@ button:disabled {
     font-size: 15px;
     margin-left: 12px;
 }
+.ott-recommend-section .cover-count {
+    color: #888;
+    font-size: 14px;
+    margin-left: 10px;
+    min-width: 80px;
+    text-align: right;
+}
 
 /* 불필요한 클래스 삭제 */
 .ott-recommend-plan,
