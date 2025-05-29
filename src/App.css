@@ -484,34 +484,6 @@ button:disabled {
 }
 
 /* 새로운 스타일 추가 */
-.ott-top3-section {
-    margin: 18px 0 0 0;
-    padding: 12px 0 0 0;
-    border-top: 1px solid #e0e0e0;
-}
-.ott-top3-section h4 {
-    font-size: 15px;
-    color: #333;
-    margin-bottom: 8px;
-}
-.ott-top3-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 18px;
-}
-.ott-top3-section .top3-platform {
-    font-weight: bold;
-    color: #4285f4;
-}
-.ott-top3-section .top3-count {
-    color: #666;
-    margin-left: 4px;
-    font-size: 13px;
-}
-
-/* 새로운 스타일 추가 */
 .ott-recommend-section {
     margin-top: 18px;
     padding: 16px 0 0 0;
@@ -543,7 +515,7 @@ button:disabled {
     font-size: 15px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
-.ott-recommend-section .top3-platform {
+.ott-recommend-section .platform {
     font-weight: bold;
     color: #4285f4;
     min-width: 90px;

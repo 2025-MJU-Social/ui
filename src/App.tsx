@@ -165,14 +165,17 @@ function App() {
                                 <h4>추천 OTT 구독 플랜</h4>
                                 <ul>
                                     {Object.entries(ottRecommendations.subscription_plan).map(
-                                        ([platform, plan]: [string, any]) => (
-                                            <li key={platform}>
-                                                <span className="top3-platform">{platform}</span>
-                                                <span className="plan-name">{plan.plan_name}</span>
-                                                <span className="plan-price">{plan.price.toLocaleString()}원</span>
-                                                <span className="cover-count">{plan.cover_count}개 콘텐츠</span>
-                                            </li>
-                                        )
+                                        ([key, plan]: [string, any]) => {
+                                            const [serviceName, planName] = key.split("|");
+                                            return (
+                                                <li key={key}>
+                                                    <span className="platform">{serviceName}</span>
+                                                    <span className="plan-name">{planName}</span>
+                                                    <span className="plan-price">{plan.price.toLocaleString()}원</span>
+                                                    <span className="cover-count">{plan.cover_count}개 콘텐츠</span>
+                                                </li>
+                                            );
+                                        }
                                     )}
                                 </ul>
                             </div>
